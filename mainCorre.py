@@ -5,24 +5,43 @@ import time
 
 # Creo la clase persona para poder darle atributos al jugador.
 class persona():
-    def __init__(self, nombre, vida, viviendo):
+    def __init__(self, nombre, vida, viviendo, cansancio):
         self.Nombre = nombre
         self.Vida = vida
         self.Viviendo = viviendo
+        self.Cansancio = cansancio
 
     def estado(self):
-        print("Nombre:",self.Nombre,"\nVida:",self.Vida,"\nSigue vivo:",self.Viviendo)
+        print("Nombre:", self.Nombre,"\nVida:", self.Vida,"%\nSigue vivo:", self.Viviendo,"\nCansancio:",(10*self.Cansancio),"%")
     
     def check(self):
 
+        if self.Cansancio >= 10:
+            self.Vida = self.Vida - 25
+            self.Cansancio = 10
+        elif self.Cansancio < 0:
+            self.Cansancio = 0
+        
         if self.Viviendo == False:
             self.Vida = 0
         elif self.Vida == 0:
             self.Viviendo = False
         elif self.Vida > 100:
             self.Vida = 100 
+        
+        if self.Viviendo == True:
+            if self.Cansancio >= 9 and self.Vida <= 25:
+                print("Estas muy herido y cansado...")
+            elif self.Cansancio >= 9 and self.Vida > 25:
+                print("Estas muy cansado...")
+            elif self.Cansancio < 9 and self.Vida <= 25:
+                print("Estas muy herido...")
 
-        print("\nTe quedan",self.Vida,"puntos de vida.")
+            if self.Cansancio >= 9 or self.Vida <= 25:
+                time.sleep(1)
+                print("Tienes que encontrar un poblado pronto o moriras...")    
+
+            print("Te quedan",self.Vida,"% ","de vida.\nTu nivel de cansancio es",(10*self.Cansancio),"%\n")
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -39,126 +58,156 @@ def intro():
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+# Defino dos diccionarios para limpiar un poco el codigo de las funciones caminoAleatorio(), sospechaCamino(), buffsCamino() y sigueVivo()
+# Diccionario para los caminos
+diccionarioCaminos =   {"Camino_1":"terminas en el mar, todo parece tranquilo pero un grupo de piratas \nte encuentran y te llevan prisionero en su barco... A los pocos \ndías mueres de hambre...\n",
+                        "Camino_2":"te topas con dos refugiados y una pequeña fogata a la orilla del \ncamino. Te convidan de su comida y te ayudan con tus heridas.\n",
+                        "Camino_3":"llegas a una cascada de 15 metros! Te esfuerzas por escalarla y \ndesde arriba observas unos animales en el bosque... Apuras el paso \ny llegas a otro cruce.\n",
+                        "Camino_4":"te ataca una manada de lobos hambrientos! Corres por tu vida pero \nlogran morderte un poco.\n",
+                        "Camino_5":"te encuentras un campamento de canivales! Logras escapar a través \ndel bosque pero sufriste heridas.\n",
+                        "Camino_6":"llegas a un pequeño arroyo, aprovechas para limpiarte las heridas \ny beber un poco de agua antes de continuar con el viaje.\n",
+                        "Camino_7":"te encuentras un transehunte delirante que asegura haber visto \npiratas... Sigues tu camino y llegas un nuevo cruce.\n",
+                        "Camino_8":"llegas a un poblado! Un habitante te invita a pasar la noche \nen el granero de su casa, te da alimentos, cura tus heridas y te \npermite darte una ducha antes de dormir.\nAl día siguientes continuas tu viaje.\n",
+                        "Camino_9":"termina en un precipicio! Puedes ver que del otro lado hay un \npueblo, pero el puente que cruza hasta el otro lado esta roto, \nlos zombies te alcanzan y mueres...\n",
+                        "Camino_10":"resulta ser un sendero tranquilo que te lleva a un nuevo cruce.\n",
+                       }
+
+# Diccionario para las pistas de los caminos
+diccionarioPistas =    {"Pista_1":"desemboca en un pequeño arroyo",
+                        "Pista_2":"conduce a un pequeño poblado",
+                        "Pista_3":"desemboca en un pequeño arroyo",
+                        "Pista_4":"es un sendero tranquilo",
+                        "Pista_5":"conduce a un pequeño poblado",
+                        "Pista_6":"desemboca en un pequeño arroyo",
+                        "Pista_7":"es un sendero tranquilo",
+                        "Pista_8":"conduce a un pequeño poblado",
+                        "Pista_9":"conduce a un pequeño poblado",
+                        "Pista_10":"es un sendero tranquilo",
+                       }
+
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
 # Funcion que devuelve de manera aleatoria uno de los 10 caminos posibles
 def caminoAleatorio():
 
     caminoRandom = random.randint(1,10)
 
     if caminoRandom == 1:
-        romualdo.Viviendo = False
-        return "terminas en el mar,\ntodo parece tranquilo pero un grupo de piratas te encuentran y te llevan prisionero en su barco... \nA los pocos días mueres de hambre..."
+        return "Camino_1"
     elif caminoRandom == 2:
-        romualdo.Viviendo = True
-        return "te topas con dos refugiados y una pequeña fogata a la orilla del camino.\nTe convidan de su comida y te ayudan con tus heridas."
+        return "Camino_2"
     elif caminoRandom == 3:
-        romualdo.Viviendo = True
-        return "llegas a una cascada de 15 metros!\nTe esfuerzas por escalarla y desde arriba observas unos animales en el bosque...\nApuras el paso y llegas a otro cruce"
+        return "Camino_3"
     elif caminoRandom == 4:
-        romualdo.Viviendo = True
-        return "te ataca una manada de lobos hambrientos!\nCorres por tu vida pero logran morderte un poco.\nTienes que encontrar un poblado pronto o moriras...\n"
+        return "Camino_4"
     elif caminoRandom == 5:
-        romualdo.Viviendo = True
-        return "te encuentras un campamento de canivales!\nlogras escapar a través del bosque pero sufriste heridas.\nTienes que encontrar un poblado pronto o moriras...\n"
+        return "Camino_5"
     elif caminoRandom == 6:
-        romualdo.Viviendo = True
-        return "llegas a un pequeño arroyo, \naprovechas para limpiarte las heridas y beber un poco de agua antes de continuar con el viaje."
+        return "Camino_6"
     elif caminoRandom == 7:
-        romualdo.Viviendo = True
-        return "te encuentras un transehunte delirante que asegura haber visto piratas...\nSigues tu camino y llegas un nuevo cruce"
+        return "Camino_7"
     elif caminoRandom == 8:        
-        romualdo.Viviendo = True
-        return "llegas a un poblado!\nUn habitante te invita a pasar la noche en el granero de su casa,\nte da alimentos, cura tus heridas y te permite darte una ducha antes de dormir.\nAl día siguientes continuas tu viaje."
+        return "Camino_8"
     elif caminoRandom == 9:
-        romualdo.Viviendo = False
-        return "termina en un precipicio!\nPuedes ver que del otro lado hay un pueblo, pero el puente que cruza hasta el otro lado esta roto,\nlos zombies te alcanzan y mueres...\n"
+        return "Camino_9"
     elif caminoRandom == 10:
-        return "resulta ser un sendero tranquilo que te lleva a un nuevo cruce."
+        return "Camino_10"
     else:
-        return "algo anda mal guacho"
+        return "Verificar porque algo anda mal... caminoAleatorio()"
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 # Funcion que devuelve pistas sobre los caminos generados aleatoriamente
 def sospechaCamino(sospecha):
 
-    if sospecha == "terminas en el mar,\ntodo parece tranquilo pero un grupo de piratas te encuentran y te llevan prisionero en su barco... \nA los pocos días mueres de hambre...":
-        return "desemboca en un pequeño arroyo"
-    elif sospecha == "te topas con dos refugiados y una pequeña fogata a la orilla del camino.\nTe convidan de su comida y te ayudan con tus heridas.":
-        return "conduce a un pequeño poblado"
-    elif sospecha == "llegas a una cascada de 15 metros!\nTe esfuerzas por escalarla y desde arriba observas unos animales en el bosque...\nApuras el paso y llegas a otro cruce":
-        return "desemboca en un pequeño arroyo"
-    elif sospecha == "te ataca una manada de lobos hambrientos!\nCorres por tu vida pero logran morderte un poco.\nTienes que encontrar un poblado pronto o moriras...\n":
-        return "es un sendero tranquilo"
-    elif sospecha == "te encuentras un campamento de canivales!\nlogras escapar a través del bosque pero sufriste heridas.\nTienes que encontrar un poblado pronto o moriras...\n":
-        return "conduce a un pequeño poblado"
-    elif sospecha == "llegas a un pequeño arroyo, \naprovechas para limpiarte las heridas y beber un poco de agua antes de continuar con el viaje.":
-        return "desemboca en un pequeño arroyo"
-    elif sospecha == "te encuentras un transehunte delirante que asegura haber visto piratas...\nSigues tu camino y llegas un nuevo cruce":
-        return "es un sendero tranquilo"
-    elif sospecha == "llegas a un poblado!\nUn habitante te invita a pasar la noche en el granero de su casa,\nte da alimentos, cura tus heridas y te permite darte una ducha antes de dormir.\nAl día siguientes continuas tu viaje.":
-        return "conduce a un pequeño poblado"
-    elif sospecha == "termina en un precipicio!\nPuedes ver que del otro lado hay un pueblo, pero el puente que cruza hasta el otro lado esta roto,\nlos zombies te alcanzan y mueres...\n":
-        return "conduce a un pequeño poblado"
-    elif sospecha == "resulta ser un sendero tranquilo que te lleva a un nuevo cruce.":
-        return "es un sendero tranquilo"
+    if sospecha == "Camino_1":
+        return "Pista_1"
+    elif sospecha == "Camino_2":
+        return "Pista_2"
+    elif sospecha == "Camino_3":
+        return "Pista_3"
+    elif sospecha == "Camino_4":
+        return "Pista_4"
+    elif sospecha == "Camino_5":
+        return "Pista_5"
+    elif sospecha == "Camino_6":
+        return "Pista_6"
+    elif sospecha == "Camino_7":
+        return "Pista_7"
+    elif sospecha == "Camino_8":
+        return "Pista_8"
+    elif sospecha == "Camino_9":
+        return "Pista_9"
+    elif sospecha == "Camino_10":
+        return "Pista_10"
     else:
-        return "algo anda mal guacho"
+        return "Verificar porque algo anda mal... sospechaCamino()"
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 # Funcion que devuelve los daños o curaciones de los caminos generados aleatoriamente
 def buffsCamino(buffs):
 
-    if buffs == "terminas en el mar,\ntodo parece tranquilo pero un grupo de piratas te encuentran y te llevan prisionero en su barco... \nA los pocos días mueres de hambre...":
+    if buffs == "Camino_1":
+        romualdo.Cansancio = 10
         return -100
-    elif buffs == "te topas con dos refugiados y una pequeña fogata a la orilla del camino.\nTe convidan de su comida y te ayudan con tus heridas.":
+    elif buffs == "Camino_2":
+        romualdo.Cansancio = romualdo.Cansancio - 2
         return 5
-    elif buffs == "llegas a una cascada de 15 metros!\nTe esfuerzas por escalarla y desde arriba observas unos animales en el bosque...\nApuras el paso y llegas a otro cruce":
+    elif buffs == "Camino_3":
+        romualdo.Cansancio = romualdo.Cansancio + 2
         return 0
-    elif buffs == "te ataca una manada de lobos hambrientos!\nCorres por tu vida pero logran morderte un poco.\nTienes que encontrar un poblado pronto o moriras...\n":
-        return -5
-    elif buffs == "te encuentras un campamento de canivales!\nlogras escapar a través del bosque pero sufriste heridas.\nTienes que encontrar un poblado pronto o moriras...\n":
-        return -10
-    elif buffs == "llegas a un pequeño arroyo, \naprovechas para limpiarte las heridas y beber un poco de agua antes de continuar con el viaje.":
+    elif buffs == "Camino_4":
+        romualdo.Cansancio = romualdo.Cansancio + 3
+        return -20
+    elif buffs == "Camino_5":
+        romualdo.Cansancio = romualdo.Cansancio + 4
+        return -25
+    elif buffs == "Camino_6":
+        romualdo.Cansancio = romualdo.Cansancio - 1
         return 0
-    elif buffs == "te encuentras un transehunte delirante que asegura haber visto piratas...\nSigues tu camino y llegas un nuevo cruce":
+    elif buffs == "Camino_7":
+        romualdo.Cansancio = romualdo.Cansancio + 1
         return 0
-    elif buffs == "llegas a un poblado!\nUn habitante te invita a pasar la noche en el granero de su casa,\nte da alimentos, cura tus heridas y te permite darte una ducha antes de dormir.\nAl día siguientes continuas tu viaje.":
+    elif buffs == "Camino_8":
+        romualdo.Cansancio = 0
         return 100
-    elif buffs == "termina en un precipicio!\nPuedes ver que del otro lado hay un pueblo, pero el puente que cruza hasta el otro lado esta roto,\nlos zombies te alcanzan y mueres...\n":
+    elif buffs == "Camino_9":
+        romualdo.Cansancio = 10
         return -100
-    elif buffs == "resulta ser un sendero tranquilo que te lleva a un nuevo cruce.":
+    elif buffs == "Camino_10":
+        romualdo.Cansancio = romualdo.Cansancio + 1
         return 0
     else:
-        return "algo anda mal guacho"
+        return "Verificar porque algo anda mal... buffsCamino()"
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 # Funcion que devuelve si romualdo continua con vida o no
 def sigueVivo(vive):
 
-    if vive == "terminas en el mar,\ntodo parece tranquilo pero un grupo de piratas te encuentran y te llevan prisionero en su barco... \nA los pocos días mueres de hambre...":       
+    if vive == "Camino_1":       
         return False
-    elif vive == "te topas con dos refugiados y una pequeña fogata a la orilla del camino.\nTe convidan de su comida y te ayudan con tus heridas.":
+    elif vive == "Camino_2":
         return True
-    elif vive == "llegas a una cascada de 15 metros!\nTe esfuerzas por escalarla y desde arriba observas unos animales en el bosque...\nApuras el paso y llegas a otro cruce":
+    elif vive == "Camino_3":
         return True
-    elif vive == "te ataca una manada de lobos hambrientos!\nCorres por tu vida pero logran morderte un poco.\nTienes que encontrar un poblado pronto o moriras...\n":
+    elif vive == "Camino_4":
         return True
-    elif vive == "te encuentras un campamento de canivales!\nlogras escapar a través del bosque pero sufriste heridas.\nTienes que encontrar un poblado pronto o moriras...\n":
+    elif vive == "Camino_5":
         return True
-    elif vive == "llegas a un pequeño arroyo, \naprovechas para limpiarte las heridas y beber un poco de agua antes de continuar con el viaje.":
+    elif vive == "Camino_6":
         return True
-    elif vive == "te encuentras un transehunte delirante que asegura haber visto piratas...\nSigues tu camino y llegas un nuevo cruce":
+    elif vive == "Camino_7":
         return True
-    elif vive == "llegas a un poblado!\nUn habitante te invita a pasar la noche en el granero de su casa,\nte da alimentos, cura tus heridas y te permite darte una ducha antes de dormir.\nAl día siguientes continuas tu viaje.":        
+    elif vive == "Camino_8":        
         return True 
-    elif vive == "termina en un precipicio!\nPuedes ver que del otro lado hay un pueblo, pero el puente que cruza hasta el otro lado esta roto,\nlos zombies te alcanzan y mueres...\n":
+    elif vive == "Camino_9":
         return False
-    elif vive == "resulta ser un sendero tranquilo que te lleva a un nuevo cruce.":
+    elif vive == "Camino_10":
         return True
     else:
-        return "algo anda mal guacho"
+        return "Verificar porque algo anda mal... sigueVivo()"
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -166,6 +215,7 @@ def sigueVivo(vive):
 def eleccion():
 
     camino = ""
+    letras = 0
 
     # Loop para que el jugador elija un camino, solo sale del loop si elige 1 o 2
     # El try-except es para evitar que el programa caiga si ingresa una letra
@@ -174,19 +224,25 @@ def eleccion():
             camino = int(input("\n¿Camino 1 o camino 2?: "))
             time.sleep(2)
         except ValueError:
-            print("Opción invalida")
+            print("\n¡ATENCION!\nNo se pueden ingresar letras.\nPor favor vuelve a intentarlo.")
+            letras = letras + 1
+            if letras >= 3:
+                print("\nLos caracteres permitidos son el numero 1 y el numero 2.\nPor favor vuelve a intentarlo.")
     return camino
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 # Funcion que nos muestra las opciones de camino disponibles para elegir, con pistas
 def opciones():
-       
-    print("\n 1. Este camino parece que",sospechaUno) # Muestra una pista de lo que parece que hay en el camino 1
-    time.sleep(2)    
-    print(" 2. Este camino parece que",sospechaDos) # Muestra una psita de lo que parece que hay en el camino 2
-    time.sleep(2)
-    print("\nElige con cuidado, tu vida depende de ello...")
+    if diccionarioPistas[sospechaUno] == diccionarioPistas[sospechaDos]:
+        print(" El camino 1 parecen que",diccionarioPistas[sospechaUno],", y el camino 2... Tambien!") # Muestra si ambas pistas son iguales 
+        time.sleep(1)
+        print("\nElige con cuidado, tu vida depende de ello...")
+    else:
+        print(" 1. Este camino parece que",diccionarioPistas[sospechaUno]) # Muestra una pista de lo que parece que hay en el camino 1 
+        print(" 2. Este camino parece que",diccionarioPistas[sospechaDos]) # Muestra una pista de lo que parece que hay en el camino 2
+        time.sleep(1)
+        print("\nElige con cuidado, tu vida depende de ello...")
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -196,9 +252,8 @@ def mensajeFin():
     time.sleep(2)
     print (romualdo.Nombre,"logró recorrer",distanciaRecorrida,"kms antes de morir.")
     time.sleep(1)
-    print("\nGAME OVER MI CIELA\n")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GAME OVER MI CIELA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -206,16 +261,16 @@ def mensajeFin():
 # Declaración de variables y estados iniciales
 distanciaRecorrida = 0 # Empezamos en 0 por ahora je
 
-# Este for es solo para generar 25 espacios vacíos antes de arrancar el programa... TOC
+# Este for es solo para generar 50 espacios vacíos antes de arrancar el programa...
 for i in range(50):
     print("\n")
 
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CORRE ROMUALDO ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
- 
-romualdo = persona("Romualdo",100,True) # Defino de momento nombre, vida y estado de manera estatica al principio
-romualdo.estado() # Funcion estado de la persona, solo para ver como anda...
+
+romualdo = persona("Romualdo",100,True,0) # Defino de momento nombre, vida y estado de manera estatica al principio
+#romualdo.estado() # Funcion estado de la persona, solo para ver como anda...
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
@@ -233,22 +288,24 @@ while romualdo.Viviendo:
         unCamino = eleccion() # Llamo a la funcion para que el usuario elija un camino
     else:
         opciones() # Llamo la funcion para mostrar las opciones de camino
-        unCamino = eleccion() # llamo la funcion para que el usuario elija un camino
+        unCamino = eleccion() # Llamo la funcion para que el usuario elija un camino
 
     # En base a lo que elige el jugador, muestra un camino o el otro
     if unCamino == 1:
         distanciaRecorrida = distanciaRecorrida + 1
-        print("\nElegiste el camino que parece que", sospechaUno,"y", caminoUno)
+        print("\nElegiste el camino que parece que", diccionarioPistas[sospechaUno],"\ny", diccionarioCaminos[caminoUno])
         time.sleep(4)
         romualdo.Vida = romualdo.Vida + buffsCamino(caminoUno) # Asigno un buff o debuff para el camino 1
         romualdo.Viviendo = sigueVivo(caminoUno) # Definimos si Romualdo sigue vivo o no con el camino 1
+        #romualdo.Cansancio = romualdo.Cansancio + 1 # Con cada camino recorrido Romualdo se va cansando
         romualdo.check() # Imprimo el estado del personaje
     elif unCamino == 2:
         distanciaRecorrida = distanciaRecorrida + 1
-        print("\nElegiste el camino que parece que", sospechaDos,"y", caminoDos)
+        print("\nElegiste el camino que parece que", diccionarioPistas[sospechaDos],"\ny", diccionarioCaminos[caminoDos])
         time.sleep(4)
         romualdo.Vida = romualdo.Vida + buffsCamino(caminoDos) # Asigno un buff o debuff para el camino 2
         romualdo.Viviendo = sigueVivo(caminoDos) # Definimos si Romualdo sigue vivo o no con el camino 2
+        #romualdo.Cansancio = romualdo.Cansancio + 1 # Con cada camino recorrido Romualdo se va cansando
         romualdo.check() # Imprimo el estado del personaje
 
 mensajeFin() # Mostramos el mensaje de fin
