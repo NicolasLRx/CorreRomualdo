@@ -7,17 +7,9 @@ def primerCamino():
     cam1 = caminoAleatorio()
     return cam1
 
-def primerPista():
-    pista1 = pistaCamino(primerCamino())
-    return pista1
-
 def segundoCamino():
     cam2 = caminoAleatorio()
     return cam2
-
-def segundaPista():
-    pista2 = pistaCamino(segundoCamino())
-    return pista2
 
 
 # Funcion que nos muestra las opciones de camino disponibles para elegir, con pistas
