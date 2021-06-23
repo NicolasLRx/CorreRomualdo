@@ -12,14 +12,20 @@ def segundoCamino():
     return cam2
 
 
+camino_1 = primerCamino() # Asigno uno de los posibles caminos a la opcion 1 de forma aleatoria
+pista_1 = pistaCamino(camino_1) # Asigno una pista para mostrar en funcion del camino generado para la opcion 1
+
+camino_2 = segundoCamino() # Asigno uno de los posibles caminos a la opcion 2 de forma aleatoria
+pista_2 = pistaCamino(camino_2) # Asigno una pista para mostrar en funcion del camino generado para la opcion 2
+
 # Funcion que nos muestra las opciones de camino disponibles para elegir, con pistas
 def Opciones():
 
-    caminoUno = primerCamino() # Asigno uno de los posibles caminos a la opcion 1 de forma aleatoria
-    pista_1 = pistaCamino(caminoUno) # Asigno una pista para mostrar en funcion del camino generado para la opcion 1
+    #caminoUno = primerCamino() # Asigno uno de los posibles caminos a la opcion 1 de forma aleatoria
+    #pista_1 = pistaCamino(caminoUno) # Asigno una pista para mostrar en funcion del camino generado para la opcion 1
 
-    caminoDos = caminoAleatorio() # Asigno uno de los posibles caminos a la opcion 2 de forma aleatoria
-    pista_2 = pistaCamino(caminoDos) # Asigno una pista para mostrar en funcion del camino generado para la opcion 2
+    #caminoDos = segundoCamino() # Asigno uno de los posibles caminos a la opcion 2 de forma aleatoria
+    #pista_2 = pistaCamino(caminoDos) # Asigno una pista para mostrar en funcion del camino generado para la opcion 2
 
     if diccionarioPistas[pista_1] == diccionarioPistas[pista_2]:
         print("El camino 1 parecen que",diccionarioPistas[pista_1],", y el camino 2... Tambien!") # Muestra si ambas pistas son iguales

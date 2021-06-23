@@ -21,14 +21,15 @@ distanciaRecorrida = 0 # Empezamos en 0 por ahora je
 # Parte principal del programa
 while romualdo.Viviendo:
 
-    caminoUno = primerCamino()
-    pistaUno = pistaCamino(caminoUno)
+    caminoUno = camino_1
+    pistaUno = pista_1
 
-    caminoDos = segundoCamino()
-    pistaDos = pistaCamino(caminoDos)
+    caminoDos = camino_2
+    pistaDos = pista_2
 
     if distanciaRecorrida == 0:
-        Introduccion() # Llamo a la introduccion
+        #Introduccion() # Llamo a la introduccion
+        Opciones() # Llamo la funcion para mostrar las opciones de camino
         unCamino = Eleccion() # Llamo a la funcion para que el usuario elija un camino
     else:
         Opciones() # Llamo la funcion para mostrar las opciones de camino

@@ -1,7 +1,5 @@
 import time
 
-from opciones import Opciones
-
 # Funcion para narrar la introduccion del juego
 def Introduccion():
     time.sleep(3)
@@ -38,6 +36,3 @@ def Introduccion():
     print("tan lejos puedes acompañar a sin que muera...\n")
     time.sleep(3)
     print("Frente a ti tienes 2 caminos")
-
-    Opciones() # Llamo a la funcion que muestras las opciones disponibles de camino
-
