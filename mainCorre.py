@@ -7,6 +7,7 @@ from opciones import *
 from diccCaminos import diccionarioCaminos
 from diccPistas import diccionarioPistas
 from siVivo import sigueVivo
+from pistaCam import pistaCamino
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -21,18 +22,18 @@ distanciaRecorrida = 0 # Empezamos en 0 por ahora je
 # Parte principal del programa
 while romualdo.Viviendo:
 
-    caminoUno = camino_1
-    pistaUno = pista_1
+    caminoUno = primerCamino() # Asigno uno de los posibles caminos a la opcion 1 de forma aleatoria
+    pistaUno = pistaCamino(caminoUno) # Asigno una pista para mostrar en funcion del camino generado para la opcion 1
 
-    caminoDos = camino_2
-    pistaDos = pista_2
+    caminoDos = segundoCamino() # Asigno uno de los posibles caminos a la opcion 2 de forma aleatoria
+    pistaDos = pistaCamino(caminoDos) # Asigno una pista para mostrar en funcion del camino generado para la opcion 2
 
     if distanciaRecorrida == 0:
-        #Introduccion() # Llamo a la introduccion
-        Opciones() # Llamo la funcion para mostrar las opciones de camino
+        Introduccion() # Llamo a la introduccion
+        Opciones(pistaUno, pistaDos) # Llamo la funcion para mostrar las opciones de camino
         unCamino = Eleccion() # Llamo a la funcion para que el usuario elija un camino
     else:
-        Opciones() # Llamo la funcion para mostrar las opciones de camino
+        Opciones(pistaUno, pistaDos) # Llamo la funcion para mostrar las opciones de camino
         unCamino = Eleccion() # Llamo la funcion para que el usuario elija un camino
 
     # En base a lo que elige el jugador, muestra un camino o el otro
