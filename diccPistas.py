@@ -1,4 +1,5 @@
 # Diccionario para las pistas de los caminos
+#Por que pones tantas pistas de cruza un arroyo?
 diccionarioPistas =    {"Pista_1":"cruza un arroyo",
                         "Pista_2":"conduce a un pequeño poblado",
                         "Pista_3":"cruza un arroyo",
